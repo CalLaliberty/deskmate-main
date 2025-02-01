@@ -6,6 +6,8 @@ import ttkbootstrap as ttk
 import subprocess
 import sys
 
+from utils.file_categories import FILE_CATEGORIES
+
 # Ensure the icon path is correct when running the bundled executable
 def get_icon_path():
     if getattr(sys, 'frozen', False):
@@ -15,16 +17,6 @@ def get_icon_path():
         # For normal execution, icon file is assumed to be in the same directory as the script
         return "deskmate_logo_removebg.ico"
 
-# Define file categories for organization
-FILE_CATEGORIES = {
-    "Images": [".jpg", ".jpeg", ".png", ".gif", ".bmp"],
-    "Documents": [".pdf", ".docx", ".txt", ".xlsx", ".pptx"],
-    "Videos": [".mp4", ".avi", ".mov", ".mkv"],
-    "Music": [".mp3", ".wav", ".aac"],
-    "Archives": [".zip", ".rar", ".tar", ".gz"],
-    "Applications": [".exe", ".msi"],
-    "Others": []
-}
 
 class CustomMessageBox:
     def __init__(self, parent, title, message):
