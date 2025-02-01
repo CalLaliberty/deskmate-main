@@ -6,6 +6,11 @@ __pycache__/
 # C extensions
 *.so
 
+# Ignore PyCharm project files
+.idea/
+*.iml
+
+
 # Distribution / packaging
 .Python
 build/
@@ -151,6 +156,10 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Sphinx documentation
+*~
+
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
