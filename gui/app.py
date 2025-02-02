@@ -17,6 +17,8 @@ class DesktopCleanerApp:
         self.root.title("DeskMate - Folder Organizer")
         self.root.geometry("1000x650")
         self.root.resizable(True, True)
+        self.root.maxsize(1024, 768)  # Set the maximum window size
+        self.root.minsize(512, 384)  # Set the minimum window size
         self.root.iconbitmap(get_icon_path())
 
         self.style = ttk.Style()
@@ -78,7 +80,10 @@ class DesktopCleanerApp:
 
     def ask_to_rename_folders(self, created_folders):
         for folder in created_folders:
-            new_name = simpledialog.askstring("Rename Folder", f"Rename {os.path.basename(folder)}? (Leave empty to skip)")
+            dialog = self.RenameFolderDialog(self.root, folder)
+            self.root.wait_window(dialog)  # Wait for the dialog to close
+            new_name = dialog.get_result()
+
             if new_name:
                 new_folder_path = os.path.join(os.path.dirname(folder), new_name)
                 try:
@@ -125,3 +130,46 @@ class DesktopCleanerApp:
         close_button = ttk.Button(history_window, text="Close", command=history_window.destroy, style="danger.TButton")
         close_button.pack(pady=10)
 
+    # Custom dialog class for renaming folders
+    class RenameFolderDialog(tk.Toplevel):
+        def __init__(self, parent, folder_name):
+            super().__init__(parent)
+            self.title("Rename Folder (Or Leave Empty to Skip)")
+            self.geometry("400x150")  # Adjust the size here
+            self.resizable(False, False)
+
+            self.folder_name = folder_name
+            self.new_name = tk.StringVar()
+
+            label = ttk.Label(self, text=f"Rename {os.path.basename(self.folder_name)}:", font=("Arial", 12))
+            label.pack(pady=10)
+
+            entry = ttk.Entry(self, textvariable=self.new_name, font=("Arial", 12), width=30)
+            entry.pack(pady=5)
+            entry.focus()
+
+            button_frame = ttk.Frame(self)
+            button_frame.pack(pady=10)
+
+            ok_button = ttk.Button(button_frame, text="OK", command=self.on_ok)
+            ok_button.pack(side="left", padx=10)
+
+            cancel_button = ttk.Button(button_frame, text="Cancel", command=self.on_cancel)
+            cancel_button.pack(side="right", padx=10)
+
+            self.grab_set()  # Makes this window modal (blocks interaction with other windows)
+
+        def on_ok(self):
+            new_name = self.new_name.get().strip()
+            if new_name:
+                self.result = new_name
+            else:
+                self.result = None
+            self.destroy()
+
+        def on_cancel(self):
+            self.result = None
+            self.destroy()
+
+        def get_result(self):
+            return self.result
