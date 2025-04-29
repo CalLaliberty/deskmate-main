@@ -1,7 +1,7 @@
 # file_categories.py
 
 FILE_CATEGORIES = {
-    "Images": [".jpg", ".jpeg", ".png", ".gif", ".bmp"],
+    "Images": [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".ico", ".webp"],
     "Documents": [".pdf", ".docx", ".txt", ".xlsx", ".pptx"],
     "Videos": [".mp4", ".avi", ".mov", ".mkv"],
     "Audio": [".mp3", ".wav", ".aac",".m4a"],
